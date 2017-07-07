@@ -10,7 +10,7 @@ This is a Hammerspoon configuration that allows you to specify distracting appli
 
 ### Prerequisites
 
-+ Hammerspoon (macOS only)
++ [Hammerspoon](http://www.hammerspoon.org) (macOS only)
 ### Usage
 
 Clone this repository and then add the following statement into your init.lua file:
@@ -37,4 +37,4 @@ At this current time this project is a minimum viable product, but many features
 
 ## Found any Bugs/Want to Contribute
 
-If you find any bugs or simply want to contribute please submit a pull request.
+If you find any bugs or simply want to contribute please submit a pull request or report an issue.

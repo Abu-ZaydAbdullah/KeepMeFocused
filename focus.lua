@@ -1,5 +1,5 @@
 -- Place applications you want to block in this array in the format "app_name","other_app_name"...
-blacklist_applications = {} 
+blacklist_applications = {}
 -- Place websites you want to block in this array in the format "domain_name","other_domain_name"...
 blacklist_websites = {}
 
@@ -41,6 +41,11 @@ function tabWatcher(appName, eventType, appObject)
                 end tell
                 ]]
 
+        getTime = [[
+                set theResponse to display dialog "How long would you like to focus?" default answer ""
+                return (text returned of theResponse) as number
+                ]]
+
 
 
         ok,result = hs.applescript(script)
@@ -66,6 +71,16 @@ function tabWatcher(appName, eventType, appObject)
     end
 end
 
+function focusTimer(x)
+  hs.timer.doAfter(x * 60, function ()
+appWatcher:stop()
+webWatcher:stop()
+hs.notify.new({title="Hey Focus", informativeText="Done focusing."}):send()
+  end)
+ appWatcher:start()
+ webWatcher:start()
+hs.notify.new({title="Hey Focus", informativeText="Focusing for " .. x .. " minutes."}):send()
+end
 
 
 appWatcher = hs.application.watcher.new(applicationWatcher)
@@ -79,14 +94,12 @@ local menu = hs.menubar.new()
 menu:setIcon(iconPath)
 
 menuTable =    {
-    { title = "Focus", fn = function() appWatcher:start() webWatcher:start() end},
-    { title = "Unfocus", fn = function() appWatcher:stop() webWatcher:stop() end},
-    --- Work in progress. Just delete them if you don't want to see them in the menu
-    { title = "15 minutes", disabled = false},
-    { title = "30 minutes", disabled = false},
-    { title = "1 hour", disabled = false},
-    { title = "Custom", disabled = false},
+    { title = "Focus", fn = function() appWatcher:start() webWatcher:start() hs.notify.new({title="Hey Focus", informativeText="Started focusing."}):send() end},
+    { title = "Unfocus", fn = function() appWatcher:stop() webWatcher:stop() hs.notify.new({title="Hey Focus", informativeText="Done focusing."}):send() end},
+    { title = "15 minutes", fn = function() focusTimer(15) end},
+    { title = "30 minutes", fn = function() focusTimer(30) end},
+    { title = "1 hour", fn = function() focusTimer(60) end},
+    -- Work in progress
+    -- { title = "Custom", fn = function() time = hs.applescript(getTime) focusTimer(time) end},
 }
-
 menu:setMenu(menuTable)
-
