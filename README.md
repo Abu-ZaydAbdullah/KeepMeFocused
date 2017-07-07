@@ -31,6 +31,8 @@ blacklist_applications = {"Safari"}
 blacklist_websites = {"medium.com"}
 ```
 
+Ensure that you copy the "icon.png" file in the main directory of the repository into your ~/.hammerspoon folder.
+
 ## Looking Forward
 
 At this current time this project is a minimum viable product, but many features are planned. Ultimately this project aims to offer a feature filled and **free** application that can be used independently of the Hammerspoon application.
